@@ -2,13 +2,13 @@
 <footer class="footer mt-auto py-3" style="background:rgb(2, 98, 83); color:#eebbc3;  box-shadow:0 -2px 12px rgba(0,0,0,0.07);">
         <div class="container text-center">
             <div class="mb-2">
-                <a href="https://web.facebook.com/tran.gia.bao.656526" target="_blank" class="mx-2" style="color:#ff7000; text-decoration:none;">
+                <a href="https://web.facebook.com/Khanh.Lan.656526" target="_blank" class="mx-2" style="color:#ff7000; text-decoration:none;">
                     <i class="bi bi-facebook" style="font-size:1.5rem;"></i>
                 </a>
-                <a href="mailto:tgbao.16102004@gmail.com?subject=Lien%20he%20TBsneakers" class="mx-2" style="color:#ff7000; text-decoration:none;">
+                <a href="mailto:klan.16102004@gmail.com?subject=Lien%20he%20TBsneakers" class="mx-2" style="color:#ff7000; text-decoration:none;">
                     <i class="bi bi-envelope-fill" style="font-size:1.5rem;"></i>
                 </a>
-                <a href="tel:0359222640" class="mx-2" style="color:#ff7000;">
+                <a href="tel:0123456789" class="mx-2" style="color:#ff7000;">
                     <i class="bi bi-telephone-fill" style="font-size:1.5rem;"></i>
                 </a>
             </div>

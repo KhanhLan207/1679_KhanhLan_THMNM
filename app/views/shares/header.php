@@ -12,7 +12,7 @@
 <style>
 body {
     font-family: 'Montserrat', Arial, sans-serif;
-    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+    background: linear-gradient(135deg, #f8fafc 0%, #ffe0e0 100%);
     min-height: 100vh;
 }
 .navbar-custom {
@@ -52,7 +52,7 @@ body {
 }
 .card-title {
     font-weight: 700;
-    color: #232946;
+    color:rgb(35, 70, 51);
 }
 .card-text {
     color: #232946;

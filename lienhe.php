@@ -46,20 +46,20 @@
 </style>
 <div class="contact-card text-center">
     <div style="margin-bottom:18px;">
-        <img src="/webbanhang/public/images/TBsneakers.png" alt="Logo" style="height:70px;">
+        <img src="/webbanhang/public/images/TraiCay.png" alt="Logo" style="height:70px;">
     </div>
-    <h2 class="contact-title">Liên hệ cửa hàng TBsneakers</h2>
+    <h2 class="contact-title">Liên hệ cửa hàng GreenFruits</h2>
     <div class="contact-info">
         <i class="bi bi-person-circle"></i>
-        <strong>Chủ cửa hàng:</strong> Trần Gia Bảo
+        <strong>Chủ cửa hàng:</strong> Nguyễn Khánh Lan
     </div>
     <div class="contact-info">
         <i class="bi bi-telephone-fill"></i>
-        <strong>Số điện thoại:</strong> 0359222640
+        <strong>Số điện thoại:</strong> 0123456789
     </div>
     <div class="contact-info">
         <i class="bi bi-envelope-fill"></i>
-        <strong>Email:</strong> tgbao.16102004@gmail.com
+        <strong>Email:</strong> nguyenkhanhlan207@gmail.com
     </div>
     <div class="contact-info">
         <i class="bi bi-geo-alt-fill"></i>
