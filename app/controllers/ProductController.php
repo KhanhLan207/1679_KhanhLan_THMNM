@@ -2,6 +2,7 @@
 require_once('app/config/database.php');
 require_once('app/models/ProductModel.php');
 require_once('app/models/CategoryModel.php');
+require_once('app/helpers/SessionHelper.php');
 
 class ProductController
 {
@@ -12,14 +13,19 @@ class ProductController
     {
         $this->db = (new Database())->getConnection();
         $this->productModel = new ProductModel($this->db);
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
     }
 
+    // Xem danh sách sản phẩm (mọi người đều xem được)
     public function index()
     {
         $products = $this->productModel->getProducts();
         include 'app/views/products/list.php';
     }
 
+    // Xem chi tiết sản phẩm (mọi người đều xem được)
     public function show($id)
     {
         $product = $this->productModel->getProductById($id);
@@ -32,14 +38,26 @@ class ProductController
         }
     }
 
+    // Thêm sản phẩm (chỉ admin)
     public function add()
     {
+        if (!SessionHelper::isLoggedIn() || !SessionHelper::isAdmin()) {
+            header('Location: /webbanhang/Product');
+            exit;
+        }
+
         $categories = (new CategoryModel($this->db))->getCategories();
         include_once 'app/views/products/add.php';
     }
 
+    // Lưu sản phẩm mới (chỉ admin)
     public function save()
     {
+        if (!SessionHelper::isLoggedIn() || !SessionHelper::isAdmin()) {
+            header('Location: /webbanhang/Product');
+            exit;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $name = $_POST['name'] ?? '';
             $description = $_POST['description'] ?? '';
@@ -71,8 +89,14 @@ class ProductController
         }
     }
 
+    // Sửa sản phẩm (chỉ admin)
     public function edit($id)
     {
+        if (!SessionHelper::isLoggedIn() || !SessionHelper::isAdmin()) {
+            header('Location: /webbanhang/Product');
+            exit;
+        }
+
         $product = $this->productModel->getProductById($id);
         $categories = (new CategoryModel($this->db))->getCategories();
 
@@ -83,8 +107,14 @@ class ProductController
         }
     }
 
+    // Cập nhật sản phẩm (chỉ admin)
     public function update()
     {
+        if (!SessionHelper::isLoggedIn() || !SessionHelper::isAdmin()) {
+            header('Location: /webbanhang/Product');
+            exit;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'];
             $name = $_POST['name'];
@@ -116,8 +146,14 @@ class ProductController
         }
     }
 
+    // Xóa sản phẩm (chỉ admin)
     public function delete($id)
     {
+        if (!SessionHelper::isLoggedIn() || !SessionHelper::isAdmin()) {
+            header('Location: /webbanhang/Product');
+            exit;
+        }
+
         if ($this->productModel->deleteProduct($id)) {
             header('Location: /webbanhang/Product');
         } else {
@@ -125,30 +161,14 @@ class ProductController
         }
     }
 
-    private function uploadImage($file)
-    {
-        $targetDir = "uploads/";
-        if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0777, true);
-        }
-
-        $targetFile = $targetDir . basename($file["name"]);
-        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
-
-        if (!in_array($imageFileType, $allowedTypes)) {
-            throw new Exception("Chỉ cho phép upload file ảnh JPG, JPEG, PNG, GIF.");
-        }
-
-        if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
-            throw new Exception("Không thể upload file ảnh.");
-        }
-
-        return $targetFile;
-    }
-
+    // Thêm vào giỏ hàng (chỉ user/admin đã đăng nhập)
     public function addToCart($id)
     {
+        if (!SessionHelper::isLoggedIn()) {
+            header('Location: /webbanhang/account/login');
+            exit;
+        }
+
         $product = $this->productModel->getProductById($id);
 
         if (!$product) {
@@ -174,19 +194,37 @@ class ProductController
         header('Location: /webbanhang/Product/cart');
     }
 
+    // Xem giỏ hàng (chỉ user/admin đã đăng nhập)
     public function cart()
     {
+        if (!SessionHelper::isLoggedIn()) {
+            header('Location: /webbanhang/account/login');
+            exit;
+        }
+
         $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
         include 'app/views/cart/cart.php';
     }
 
+    // Thanh toán (chỉ user/admin đã đăng nhập)
     public function checkout()
     {
+        if (!SessionHelper::isLoggedIn()) {
+            header('Location: /webbanhang/account/login');
+            exit;
+        }
+
         include 'app/views/cart/checkout.php';
     }
 
+    // Xử lý thanh toán (chỉ user/admin đã đăng nhập)
     public function processCheckout()
     {
+        if (!SessionHelper::isLoggedIn()) {
+            header('Location: /webbanhang/account/login');
+            exit;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $name = $_POST['name'];
             $phone = $_POST['phone'];
@@ -232,11 +270,18 @@ class ProductController
         }
     }
 
+    // Xác nhận đơn hàng (chỉ user/admin đã đăng nhập)
     public function orderConfirmation()
     {
+        if (!SessionHelper::isLoggedIn()) {
+            header('Location: /webbanhang/account/login');
+            exit;
+        }
+
         include 'app/views/cart/orderConfirmation.php';
     }
 
+    // Tìm kiếm sản phẩm (mọi người đều truy cập được)
     public function search()
     {
         $keyword = isset($_GET['q']) ? trim($_GET['q']) : '';
@@ -255,11 +300,17 @@ class ProductController
         include 'app/views/products/list.php';
     }
 
+    // Cập nhật số lượng trong giỏ hàng (chỉ user/admin đã đăng nhập)
     public function updateCartQuantity()
     {
+        if (!SessionHelper::isLoggedIn()) {
+            header('Location: /webbanhang/account/login');
+            exit;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $product_id = $_POST['product_id'];
-            $action = $_POST['action']; // 'increase' hoặc 'decrease'
+            $action = $_POST['action'];
 
             if (isset($_SESSION['cart'][$product_id])) {
                 if ($action === 'increase') {
@@ -274,8 +325,14 @@ class ProductController
         exit;
     }
 
+    // Xóa sản phẩm khỏi giỏ hàng (chỉ user/admin đã đăng nhập)
     public function removeFromCart()
     {
+        if (!SessionHelper::isLoggedIn()) {
+            header('Location: /webbanhang/account/login');
+            exit;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $product_id = $_POST['product_id'];
             if (isset($_SESSION['cart'][$product_id])) {
@@ -286,4 +343,27 @@ class ProductController
         header('Location: /webbanhang/Product/cart');
         exit;
     }
+
+    private function uploadImage($file)
+    {
+        $targetDir = "uploads/";
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0777, true);
+        }
+
+        $targetFile = $targetDir . basename($file["name"]);
+        $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+        $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+
+        if (!in_array($imageFileType, $allowedTypes)) {
+            throw new Exception("Chỉ cho phép upload file ảnh JPG, JPEG, PNG, GIF.");
+        }
+
+        if (!move_uploaded_file($file["tmp_name"], $targetFile)) {
+            throw new Exception("Không thể upload file ảnh.");
+        }
+
+        return $targetFile;
+    }
 }
+?>

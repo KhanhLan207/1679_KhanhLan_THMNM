@@ -9,7 +9,13 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> 
 <style>
+.product-image { 
+        max-width: 100px; 
+        height: auto; 
+}
+
 body {
     font-family: 'Montserrat', Arial, sans-serif;
     background: linear-gradient(135deg, #f8fafc 0%, #ffe0e0 100%);
@@ -91,37 +97,53 @@ body {
 <body>
 <nav class="navbar navbar-expand-lg navbar-custom py-2">
   <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="/webbanhang/Product">
-      <img src="/webbanhang/public/images/TraiCay.png" alt="Logo" style="height:100px; width: auto;">
-      <span style="font-size:2rem; color:#d5eebb"> GreenFruits</span>
-    </a>
+    <a class="navbar-brand d-flex align-items-center" href="/webbanhang/Product" style="gap: 10px;">
+  <img src="/webbanhang/public/images/TraiCay.png" alt="Logo" style="height:60px; width: auto;">
+  <span style="font-size:1.8rem; color:#d5eebb; white-space: nowrap;">GreenFruits</span>
+</a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/webbanhang/Product">Trang chủ</a>  
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/webbanhang/Product/add">Thêm sản phẩm</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/webbanhang/Category/list">Danh sách danh mục</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/webbanhang/lienhe.php">Liên hệ</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/webbanhang/about.php">Giới thiệu</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/webbanhang/views/cart/Cart.php">Giỏ hàng</a>
-        </li>
-       
-         
-       
-      </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/webbanhang/product">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/webbanhang/product/add">Thêm sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/webbanhang/category/list">Danh sách danh mục</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/webbanhang/contact">Liên hệ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/webbanhang/about">Giới thiệu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/webbanhang/product/cart">Giỏ hàng</a>
+                    </li>
+                    <?php if (isset($_SESSION['username'])): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Xin chào, <?php echo htmlspecialchars($_SESSION['username']); ?></a>
+                        </li>
+                        <li class="nav-item">
+                            <form action="/webbanhang/account/logout" method="post">
+                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                <button type="submit" class="nav-link btn btn-link">Logout</button>
+                            </form>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/webbanhang/account/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/webbanhang/account/register">Register</a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
 
     </div>
   </div>

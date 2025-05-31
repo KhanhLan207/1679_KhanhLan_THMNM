@@ -38,9 +38,11 @@
                         </div>
                         <div class="d-flex flex-wrap gap-2">
                             <a href="/webbanhang/Product" class="btn btn-detail mr-2 mb-2">Quay lại danh sách</a>
-                            <a href="#" class="btn btn-buy mb-2" title="Thêm vào giỏ">
-                                <i class="bi bi-cart-plus-fill"></i>
-                            </a>
+                            <?php if (SessionHelper::isLoggedIn()): ?>
+                                <a href="/webbanhang/Product/addToCart/<?php echo $product->id; ?>" class="btn btn-buy mb-2" title="Thêm vào giỏ">
+                                    <i class="bi bi-cart-plus-fill"></i>
+                                </a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
