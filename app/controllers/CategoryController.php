@@ -17,6 +17,7 @@ class CategoryController
         }
     }
 
+
     // Hiển thị danh sách danh mục (mọi người đều xem được)
     public function list()
     {
